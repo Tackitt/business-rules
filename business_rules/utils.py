@@ -1,8 +1,8 @@
 import inspect
 from decimal import Decimal, Inexact, Context
 
-import fields, engine
-from util import method_type
+from . import fields
+from .util import method_type
 
 
 def fn_name_to_pretty_label(name):
@@ -179,7 +179,7 @@ def validate_rule_data(variables, actions, rule):
                 if len(keys) > 1:
                     raise AssertionError('Expected ONE of "any" or "all" but found {}'.format(keys))
                 else:
-                    for _, v in input_conditions.iteritems():
+                    for _, v in input_conditions.items():
                         validate_conditions(v, rule_schema)
             else:
                 validate_condition(input_conditions, variables, rule_schema)

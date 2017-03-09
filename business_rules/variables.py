@@ -1,6 +1,6 @@
 import inspect
 
-import utils
+from . import utils
 from .operators import (
     BaseType,
     NumericType,
@@ -11,7 +11,6 @@ from .operators import (
     DateTimeType,
     TimeType,
 )
-from .utils import fn_name_to_pretty_label
 
 
 class BaseVariables(object):
@@ -57,7 +56,7 @@ def rule_variable(field_type, label=None, options=None, params=None):
         func.params = params
         func.field_type = field_type
         func.is_rule_variable = True
-        func.label = label or fn_name_to_pretty_label(func.__name__)
+        func.label = label or utils.fn_name_to_pretty_label(func.__name__)
         func.options = options
 
         return func

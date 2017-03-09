@@ -1,10 +1,10 @@
 import inspect
 import logging
 
-import utils
-from business_rules.models import ConditionResult
-from business_rules.validators import BaseValidator
-from util import method_type
+from . import utils
+from .models import ConditionResult
+from .validators import BaseValidator
+from .util import method_type
 from .fields import FIELD_NO_INPUT
 
 logger = logging.getLogger(__name__)
@@ -176,7 +176,7 @@ def do_actions(actions, defined_actions, defined_validators, defined_variables, 
     """
 
     # Get only conditions when result was TRUE
-    successful_conditions = filter(lambda x: x[0], checked_conditions_results)
+    successful_conditions = list(filter(lambda x: x[0], checked_conditions_results))
 
     # Execute validators, if all False, then not execute actions for rule
     valid = [

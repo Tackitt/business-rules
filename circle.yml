@@ -1,11 +1,9 @@
 machine:
   python:
-    version: 2.7.11
-
-dependencies:
-  override:
-    - make deps
+    version: 2.7.12
+  post:
+    - pyenv global 2.7.12 3.3.6 3.4.4 3.5.2 3.6.0
 
 test:
   override:
-    - make coverage
+    - tox

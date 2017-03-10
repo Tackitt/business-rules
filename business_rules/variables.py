@@ -10,7 +10,7 @@ from .operators import (
     SelectMultipleType,
     DateTimeType,
     TimeType,
-)
+    DateType)
 
 
 class BaseVariables(object):
@@ -151,6 +151,20 @@ def datetime_rule_variable(label=None, params=None):
     """
 
     return _rule_variable_wrapper(field_type=DateTimeType, label=label, params=params)
+
+
+def date_rule_variable(label=None, params=None):
+    """
+    Decorator to make a function into a datetime rule variable.
+
+    NOTE: add **kwargs argument to receive Rule as parameters
+
+    :param label:
+    :param params:
+    :return: Decorator function wrapper for Date values
+    """
+
+    return _rule_variable_wrapper(field_type=DateType, label=label, params=params)
 
 
 def time_rule_variable(label=None, params=None):

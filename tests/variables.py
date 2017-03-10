@@ -1,8 +1,10 @@
+import datetime
+import time
+
 from business_rules import variables
 
 
 class TestVariables(variables.BaseVariables):
-
     @variables.boolean_rule_variable()
     def bool_variable(self):
         return True
@@ -21,7 +23,11 @@ class TestVariables(variables.BaseVariables):
 
     @variables.datetime_rule_variable()
     def datetime_variable(self):
-        return datetime.now()
+        return datetime.datetime.now()
+
+    @variables.date_rule_variable()
+    def date_variable(self):
+        return datetime.date.today()
 
     @variables.time_rule_variable()
     def time_variable(self):

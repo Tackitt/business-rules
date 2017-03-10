@@ -1,14 +1,15 @@
+import calendar
 import inspect
 import re
+from datetime import datetime, date, time
 from decimal import Decimal
 from functools import wraps
-from datetime import datetime, date, time
+
 from six import string_types, integer_types
-import calendar
 
 from .fields import (
-    FIELD_TEXT, FIELD_NUMERIC, FIELD_NO_INPUT, FIELD_SELECT, FIELD_SELECT_MULTIPLE, FIELD_DATETIME, FIELD_TIME
-)
+    FIELD_TEXT, FIELD_NUMERIC, FIELD_NO_INPUT, FIELD_SELECT, FIELD_SELECT_MULTIPLE, FIELD_DATETIME, FIELD_TIME,
+    FIELD_DATE)
 from .utils import fn_name_to_pretty_label, float_to_decimal
 
 
@@ -296,6 +297,63 @@ class DateTimeType(BaseType):
     @type_operator(FIELD_DATETIME)
     def before_than_or_equal_to(self, other_datetime):
         return self.before_than(other_datetime) or self.equal_to(other_datetime)
+
+
+@export_type
+class DateType(BaseType):
+    name = "date"
+    DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
+    DATE_FORMAT = '%Y-%m-%d'
+
+    def _assert_valid_value_and_cast(self, value):
+        """
+        Parse int, datetime, date or string with formats '%Y-%m-%dT%H:%M:%S' or '%Y-%m-%d' into
+        timestamp (int) instance.
+
+        :param value:
+        :return:
+        """
+        if isinstance(value, integer_types):
+            return value
+
+        if isinstance(value, (datetime, date)):
+            return calendar.timegm(value.timetuple())
+
+        if isinstance(value, string_types):
+            try:
+                return int(value)
+            except ValueError:
+                pass
+
+        try:
+            return calendar.timegm(datetime.strptime(value, self.DATETIME_FORMAT).timetuple())
+        except (ValueError, TypeError):
+            pass
+
+        try:
+            return calendar.timegm(datetime.strptime(value, self.DATE_FORMAT).timetuple())
+        except (ValueError, TypeError):
+            raise AssertionError("{0} is not a valid datetime type.".format(value))
+
+    @type_operator(FIELD_DATE)
+    def equal_to(self, other_date):
+        return self.value == other_date
+
+    @type_operator(FIELD_DATE)
+    def after_than(self, other_date):
+        return self.value > other_date
+
+    @type_operator(FIELD_DATE)
+    def after_than_or_equal_to(self, other_date):
+        return self.after_than(other_date) or self.equal_to(other_date)
+
+    @type_operator(FIELD_DATE)
+    def before_than(self, other_date):
+        return self.value < other_date
+
+    @type_operator(FIELD_DATE)
+    def before_than_or_equal_to(self, other_date):
+        return self.before_than(other_date) or self.equal_to(other_date)
 
 
 @export_type

@@ -1,7 +1,7 @@
+import calendar
 import sys
 from datetime import datetime, timedelta, date
 from decimal import Decimal
-import calendar
 
 from business_rules.operators import (
     StringType,
@@ -10,8 +10,7 @@ from business_rules.operators import (
     SelectType,
     SelectMultipleType,
     BaseType,
-    DateTimeType,
-)
+    DateTimeType)
 from tests import TestCase
 
 

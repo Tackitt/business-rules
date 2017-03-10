@@ -4,7 +4,7 @@ from business_rules import utils
 from tests.test_integration import SomeVariables, SomeActions
 from tests import actions, variables
 from business_rules import fields
-from business_rules.fields import FIELD_DATETIME, FIELD_TIME
+from business_rules.fields import FIELD_DATETIME, FIELD_TIME, FIELD_DATE
 
 
 def test_fn_name_to_pretty_label():
@@ -36,7 +36,7 @@ def test_fn_name_to_pretty_label_with_different_cases():
 def test_get_valid_fields():
     valid_fields = utils.get_valid_fields()
 
-    assert len(valid_fields) == 7
+    assert len(valid_fields) == 8
 
 
 def test_params_dict_to_list_when_params_none():
@@ -142,6 +142,33 @@ def test_export_rule_data():
             },
             {
                 'input_type': FIELD_DATETIME,
+                'label': 'Equal To',
+                'name': 'equal_to'
+            },
+        ],
+        'date': [
+            {
+                'input_type': FIELD_DATE,
+                'label': 'After Than',
+                'name': 'after_than'
+            },
+            {
+                'input_type': FIELD_DATE,
+                'label': 'After Than Or Equal To',
+                'name': 'after_than_or_equal_to'
+            },
+            {
+                'input_type': FIELD_DATE,
+                'label': 'Before Than',
+                'name': 'before_than'
+            },
+            {
+                'input_type': FIELD_DATE,
+                'label': 'Before Than Or Equal To',
+                'name': 'before_than_or_equal_to'
+            },
+            {
+                'input_type': FIELD_DATE,
                 'label': 'Equal To',
                 'name': 'equal_to'
             },
